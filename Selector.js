@@ -11,7 +11,7 @@ $.fn.Selector = function(options) {
     setActiveOnClick: true,
     checkedClass: 'checked',
     setOrder: true,
-    timeToGo: 300,
+    transitionTime: 300,
     valueAttr: 'data-value',
     arrows: 300
   },options);
@@ -26,13 +26,13 @@ $.fn.Selector = function(options) {
       } else if(el.attr('data-url').length > 0){
         window.location.href = el.attr('data-url');
       }
-    },settings.timeToGo);
+    },settings.transitionTime);
   };
 
   self.scrollToSelected = function scrollToSelected(el){
     var scrollToIndex = el.index();
     var scrollToPx = scrollToIndex * el.outerHeight();
-    selector.animate({scrollTop:scrollToPx},400);
+    selector.animate({scrollTop:scrollToPx},settings.transitionTime);
     self.setSelected(selector);
   };
 
@@ -124,8 +124,10 @@ $.fn.Selector = function(options) {
     });
   }
 
-  // Initialize and Scroll
 
+// Initialize and Scroll
+
+  // When Document is ready, initialize the Selector
   $(document).ready(function(){
     self.initSelector(selector);
     self.scrollToSelected(selector.find('li.'+settings.activeClass));
@@ -135,7 +137,16 @@ $.fn.Selector = function(options) {
 	  	self.keepArrowsInPlace();
 	  }
   });
-  $(selector).scroll(function() {
+
+  // When leaving the Selector
+  selector.mouseleave(function(){
+    setTimeout(function(){
+      self.scrollToSelected(selector.find('li.'+settings.checkedClass));
+    },200);
+  });
+
+  // When scrolling into Selector
+  selector.scroll(function() {
     self.setSelected(selector);
     currentTop = selector.scrollTop();
     if(settings.arrows){
