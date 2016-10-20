@@ -14,7 +14,7 @@ $('#ID-TO-ELEMENT').Selector({
 });
 ```
 
-### Initialize Selector
+### Bower install Selector
 
 ```javascript
 bower install selector --save-dev
