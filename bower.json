@@ -2,7 +2,7 @@
   "name": "Selector",
   "version": "0.0.1",
   "main": [
-    "Selector.js"
+    "jquery.Selector.js"
   ],
   "ignore": [
     "config",
