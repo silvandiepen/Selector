@@ -1,16 +1,19 @@
 $.fn.Selector = function(options) {
 
   // Set Variables
+  console.log('Selector: #'+$(this).attr('id')+' initialized');
 
   var self = {};
-  var selectorMidLine, sIndex;
+  var selectorMidLine, sIndex,arrows,currentTop,margin = {};
   var selector = $(this);
   var settings = $.extend({
     clickToOpen: false,
     setActiveOnClick: true,
     checkedClass: 'checked',
     setOrder: true,
-    timeToGo: 300
+    timeToGo: 300,
+    valueAttr: 'data-value',
+    arrows: 300
   },options);
 
 
@@ -28,19 +31,25 @@ $.fn.Selector = function(options) {
 
   self.scrollToSelected = function scrollToSelected(el){
     var scrollToIndex = el.index();
-    console.log(scrollToIndex);
-    console.log(el.outerHeight());
-    selector.animate({scrollTop:(scrollToIndex * el.outerHeight())},400);
+    var scrollToPx = scrollToIndex * el.outerHeight();
+    selector.animate({scrollTop:scrollToPx},400);
     self.setSelected(selector);
   };
 
   self.initSelector = function initSelector(selector) {
       selectorMidLine = selector.outerHeight() / 2;
       var checked = selector.find('li.'+settings.checkedClass);
-      var margin = (selectorMidLine - (checked.outerHeight() / 2));
+      self.setActive(selector,checked);
+      self.setChecked(selector,checked);
+
+      margin.top = (selectorMidLine - (checked.outerHeight() / 2));
+      margin.bottom = margin.top;
+      if(settings.arrows){
+    //    margin.top = margin.top - arrows.outerHeight();
+      }
       selector.find('ul').css({
-        'margin-top': margin,
-        'margin-bottom': margin
+        'margin-top': margin.top,
+        'margin-bottom': margin.bottom
       });
   };
 
@@ -52,14 +61,44 @@ $.fn.Selector = function(options) {
           $(this).removeClass('checked').attr('data-order', sIndex - $(this).index());
         });
         $(this).addClass('checked');
-        self.setValue(selector,$(this));
+        self.setChecked(selector,$(this));
       }
     });
   };
 
-  self.setValue = function setValue(selector,el) {
-    selector.attr('data-selected', el.attr('data-value'));
+  self.setChecked = function setChecked(selector,el) {
+    selector.attr('data-checked', el.attr(settings.valueAttr));
   };
+  self.setActive = function setActive(selector,el) {
+    selector.attr('data-active', el.attr(settings.valueAttr));
+  };
+
+  self.keepArrowsInPlace = function keepArrowsInPlace(selector) {
+    arrows.css('top',selectorMidLine + currentTop);
+  };
+
+  self.goToOption = function goToOption(goto){
+    console.log('somethingggg');
+    var goIndex;
+    if(goto === 'up'){
+      console.log('up');
+      goIndex = selector.find('li.'+settings.checkedClass).index() - 1;
+    } else if(goto === 'down') {
+      console.log('down');
+      goIndex = selector.find('li.'+settings.checkedClass).index() + 1;
+    } else {
+      goIndex = goto;
+    }
+    console.log(goIndex);
+    self.scrollToSelected(selector.find('li:eq('+goIndex+')'));
+  };
+
+    if(settings.arrows){
+      arrows = $('<div>').addClass('selector-arrows');
+      arrows.append($('<a>').addClass('selector-arrows-up').on('click',function(){ self.goToOption('up'); }));
+      arrows.append($('<a>').addClass('selector-arrows-down').on('click',function(){ self.goToOption('down'); }));
+      selector.prepend(arrows);
+    }
 
   // Click Actions
 
@@ -69,9 +108,12 @@ $.fn.Selector = function(options) {
       self.scrollToSelected($(this));
     });
   }
+
   if(settings.setActiveOnClick){
     selector.on('click','li a',function(e){
       var clickedElement = $(this);
+      self.setActive(selector,$(this).parent());
+      self.scrollToSelected($(this).parent());
       if(!settings.clickToOpen){
         e.preventDefault();
       }
@@ -88,9 +130,17 @@ $.fn.Selector = function(options) {
     self.initSelector(selector);
     self.scrollToSelected(selector.find('li.'+settings.activeClass));
     // self.setSelected(selector);
+
+    if(settings.arrows){
+	  	self.keepArrowsInPlace();
+	  }
   });
   $(selector).scroll(function() {
     self.setSelected(selector);
+    currentTop = selector.scrollTop();
+    if(settings.arrows){
+	  	self.keepArrowsInPlace();
+	  }
   });
 
 };
