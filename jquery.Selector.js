@@ -13,7 +13,10 @@ $.fn.Selector = function(options) {
     setOrder: true,
     transitionTime: 300,
     valueAttr: 'data-value',
-    arrows: 300
+    arrows: 300,
+    onSelectorChange: false,
+    onActiveChange: false,
+    onCheckedChange: false
   },options);
 
 
@@ -67,10 +70,10 @@ $.fn.Selector = function(options) {
   };
 
   self.setChecked = function setChecked(selector,el) {
-    selector.attr('data-checked', el.attr(settings.valueAttr));
+    selector.attr('data-checked', el.attr(settings.valueAttr)).triggerAll('checkedChange selectorChange');
   };
   self.setActive = function setActive(selector,el) {
-    selector.attr('data-active', el.attr(settings.valueAttr));
+    selector.attr('data-active', el.attr(settings.valueAttr)).triggerAll('activeChange selectorChange');
   };
 
   self.keepArrowsInPlace = function keepArrowsInPlace(selector) {
@@ -125,6 +128,32 @@ $.fn.Selector = function(options) {
   }
 
 
+// Check if var is function
+self.isFunction = function isFunction(functionToCheck) {
+ var getType = {};
+ return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+};
+// On Active change
+Selector.on('activeChange', function(){
+  if(self.isFunction(settings.onActiveChange)){
+    settings.onActiveChange();
+  }
+});
+// On Checked change
+Selector.on('checkedChange', function(){
+  if(self.isFunction(settings.onCheckedChange)){
+    settings.onCheckedChange();
+  }
+});
+// On Checked change
+Selector.on('selectorChange', function(){
+  if(self.isFunction(settings.onSelectorChange)){
+    settings.onSelectorChange();
+  }
+});
+
+
+
 // Initialize and Scroll
 
   // When Document is ready, initialize the Selector
@@ -155,3 +184,15 @@ $.fn.Selector = function(options) {
   });
 
 };
+
+(function($) {
+    $.fn.extend({
+        triggerAll: function (events, params) {
+            var el = this, i, evts = events.split(' ');
+            for (i = 0; i < evts.length; i += 1) {
+                el.trigger(evts[i], params);
+            }
+            return el;
+        }
+    });
+})(jQuery);
