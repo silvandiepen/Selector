@@ -134,19 +134,19 @@ self.isFunction = function isFunction(functionToCheck) {
  return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
 };
 // On Active change
-Selector.on('activeChange', function(){
+selector.on('activeChange', function(){
   if(self.isFunction(settings.onActiveChange)){
     settings.onActiveChange();
   }
 });
 // On Checked change
-Selector.on('checkedChange', function(){
+selector.on('checkedChange', function(){
   if(self.isFunction(settings.onCheckedChange)){
     settings.onCheckedChange();
   }
 });
 // On Checked change
-Selector.on('selectorChange', function(){
+selector.on('selectorChange', function(){
   if(self.isFunction(settings.onSelectorChange)){
     settings.onSelectorChange();
   }
