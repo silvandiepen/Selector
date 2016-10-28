@@ -123,7 +123,7 @@ $.fn.Selector = function(options) {
       selector.find('.active').each(function(){
         $(this).removeClass('active');
       });
-      el.addClass('active');
+      $(this).parent().addClass('active');
     });
   }
 
