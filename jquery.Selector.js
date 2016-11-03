@@ -1,11 +1,11 @@
 $.fn.Selector = function(options) {
 
-  // Set Variables
-  console.log('Selector: #'+$(this).attr('id')+' initialized');
+
 
   var self = {};
   var selectorMidLine, sIndex,arrows,currentTop,margin = {};
   var selector = $(this);
+  var initialized = false;
   var settings = $.extend({
     clickToOpen: false,
     setActiveOnClick: true,
@@ -18,6 +18,17 @@ $.fn.Selector = function(options) {
     onActiveChange: false,
     onCheckedChange: false
   },options);
+
+  if(!initialized){
+    $(window).scroll(function(){
+        self.initSelector(selector);
+        self.scrollToSelected(selector.find('li.'+settings.activeClass));
+        if(settings.arrows){
+    	  	self.keepArrowsInPlace();
+    	  }
+    	  console.log('Selector: #'+$(this).attr('id')+' initialized');
+    });
+  }
 
 
   // Create Functions
@@ -36,7 +47,7 @@ $.fn.Selector = function(options) {
     var scrollToIndex = el.index();
     var scrollToPx = scrollToIndex * el.outerHeight();
     selector.animate({scrollTop:scrollToPx},settings.transitionTime);
-    self.setSelected(selector);
+  //  self.setSelected(selector);
   };
 
   self.initSelector = function initSelector(selector) {
@@ -54,6 +65,7 @@ $.fn.Selector = function(options) {
         'margin-top': margin.top,
         'margin-bottom': margin.bottom
       });
+      initialized = true;
   };
 
   self.setSelected = function setSelected(selector) {
@@ -81,18 +93,14 @@ $.fn.Selector = function(options) {
   };
 
   self.goToOption = function goToOption(goto){
-    console.log('somethingggg');
     var goIndex;
     if(goto === 'up'){
-      console.log('up');
       goIndex = selector.find('li.'+settings.checkedClass).index() - 1;
     } else if(goto === 'down') {
-      console.log('down');
       goIndex = selector.find('li.'+settings.checkedClass).index() + 1;
     } else {
       goIndex = goto;
     }
-    console.log(goIndex);
     self.scrollToSelected(selector.find('li:eq('+goIndex+')'));
   };
 
@@ -153,19 +161,6 @@ selector.on('selectorChange', function(){
 });
 
 
-
-// Initialize and Scroll
-
-  // When Document is ready, initialize the Selector
-  $(document).ready(function(){
-    self.initSelector(selector);
-    self.scrollToSelected(selector.find('li.'+settings.activeClass));
-    // self.setSelected(selector);
-
-    if(settings.arrows){
-	  	self.keepArrowsInPlace();
-	  }
-  });
 
   // When leaving the Selector
   selector.mouseleave(function(){
