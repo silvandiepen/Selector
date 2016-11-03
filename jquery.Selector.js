@@ -3,7 +3,7 @@ $.fn.Selector = function(options) {
 
 
   var self = {};
-  var selectorMidLine, sIndex,arrows,currentTop,margin = {};
+  var selectorMidLine, sIndex,arrows,currentTop,margin = {},allowSetSelected = true;
   var selector = $(this);
   var initialized = false;
   var settings = $.extend({
@@ -20,6 +20,7 @@ $.fn.Selector = function(options) {
   },options);
 
   if(!initialized){
+    console.log('initialized!');
     $(window).scroll(function(){
         self.initSelector(selector);
         self.scrollToSelected(selector.find('li.'+settings.activeClass));
@@ -27,6 +28,7 @@ $.fn.Selector = function(options) {
     	  	self.keepArrowsInPlace();
     	  }
     	  console.log('Selector: #'+$(this).attr('id')+' initialized');
+        initialized = true;
     });
   }
 
