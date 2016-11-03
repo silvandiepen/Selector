@@ -16,21 +16,31 @@ $.fn.Selector = function(options) {
     arrows: 300,
     onSelectorChange: false,
     onActiveChange: false,
-    onCheckedChange: false
+    onCheckedChange: false,
+    init: true
   },options);
 
-  if(!initialized){
-    console.log('initialized!');
-    $(window).scroll(function(){
-        self.initSelector(selector);
-        self.scrollToSelected(selector.find('li.'+settings.activeClass));
-        if(settings.arrows){
-    	  	self.keepArrowsInPlace();
-    	  }
-    	  console.log('Selector: #'+$(this).attr('id')+' initialized');
-        initialized = true;
-    });
+  if(settings.init){
+    var initInterval = setInterval(function(){
+      if(initialized){
+        clearInterval(initInterval);
+      } else {
+        self.initialize();
+      }
+    },1000);
   }
+
+  self.initialize = function initialize(){
+    if(!initialized){
+      self.initSelector(selector);
+      self.scrollToSelected(selector.find('li.'+settings.activeClass));
+      if(settings.arrows){
+        self.keepArrowsInPlace();
+      }
+      console.log('Selector: #'+$(this).attr('id')+' initialized');
+      initialized = true;
+    }
+  };
 
 
   // Create Functions
@@ -164,6 +174,8 @@ selector.on('selectorChange', function(){
 
 
 
+
+
   // When leaving the Selector
   selector.mouseleave(function(){
     setTimeout(function(){
@@ -179,7 +191,6 @@ selector.on('selectorChange', function(){
 	  	self.keepArrowsInPlace();
 	  }
   });
-
 };
 
 (function($) {
