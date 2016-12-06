@@ -18,8 +18,6 @@ $.fn.Selector = function(options) {
         onGoTo: false
     }, options);
 
-    console.log(options);
-
     return this.each(function(i, el) {
 
 
@@ -91,13 +89,6 @@ $.fn.Selector = function(options) {
             selector.on('selectorChange', function() {
                 if (isFunction(settings.onSelectorChange)) {
                     settings.onSelectorChange();
-                }
-            });
-            // On Checked change
-            selector.on('goTo', function() {
-                if (isFunction(settings.onGoTo)) {
-                    console.log('hoi');
-                    // setSelected();
                 }
             });
 
