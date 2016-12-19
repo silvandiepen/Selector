@@ -18,6 +18,12 @@ $.fn.Selector = function(options) {
         onGoTo: false
     }, options);
 
+    if(options.onMobile){
+      if($(window).outerWidth() <  750){
+        settings = $.extend({},settings,options.onMobile);
+      }
+    }
+
     return this.each(function(i, el) {
 
 
