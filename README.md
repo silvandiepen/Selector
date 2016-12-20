@@ -40,3 +40,33 @@ Install the script with bower or make your own files
 ```
 bower install selector --save
 ```
+
+
+
+### onSelectorChange / onCheckedChange / onActiveChange
+
+You can call function on change or checked by adding them to the init of the selector
+
+``` js
+onActiveChange: function(){ alert('Selector Changed'); }
+```		
+
+### Mobile specific
+
+To use mobile specific functions or other behaviour, it is possible to overwrite certain values on mobile by using:
+
+``` js
+onMobile: { arrows: false, transitionTime: 600, onActiveChange: function(){} }
+```		
+All options in onMobile will overrule the default or set settings. Standard max screen width is set to 750px, you can change this by
+setting the mobileScreen:
+``` js
+mobileScreen: 640
+```		
+Make sure you dont use pixels, rem, em, pt or percentages.  
+
+
+
+
+
+

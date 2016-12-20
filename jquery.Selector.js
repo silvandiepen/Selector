@@ -19,7 +19,11 @@ $.fn.Selector = function(options) {
     }, options);
 
     if(options.onMobile){
-      if($(window).outerWidth() <  750){
+      var maxScreen;
+      if(options.mobileScreen){
+        maxScreen = options.mobileScreen;
+      } else { maxScreen = 750; }
+      if($(window).outerWidth() <= maxScreen){
         settings = $.extend({},settings,options.onMobile);
       }
     }
