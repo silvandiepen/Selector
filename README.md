@@ -4,6 +4,24 @@ An alternative select field. Which works on mobile and desktop. By clicks or jus
 	
 Still a work in progress (help is welcome)
 
+
+Installation
+------------
+
+Install the script with bower or make your own files
+
+### Bower
+
+```
+bower install selector --save
+```
+
+### Embed
+
+```html
+<script type="text/javascript" src="vendor/jquery.Selector.js"></script>
+```
+
 ### Initialize Selector (example)
 
 
@@ -22,23 +40,6 @@ Still a work in progress (help is welcome)
 		onCheckedChange: false
 	});
 
-```
-
-Installation
-------------
-
-Install the script with bower or make your own files
-
-### Embed
-
-```html
-<script type="text/javascript" src="vendor/jquery.Selector.js"></script>
-```
-
-### Bower
-
-```
-bower install selector --save
 ```
 
 
