@@ -1,8 +1,8 @@
 # jQuery.Selector
 
-	An alternative select field. Which works on mobile and desktop. By clicks or just native scrolling. Set active and selected and call functions on new checked or active. 
+An alternative select field. Which works on mobile and desktop. By clicks or just native scrolling. Set active and selected and call functions on new checked or active. 
 	
-	Still a work in progress (help is welcome)
+Still a work in progress (help is welcome)
 
 ### Initialize Selector (example)
 
