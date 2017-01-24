@@ -8,6 +8,7 @@ $.fn.Selector = function(options) {
         clickToOpen: false,
         setActiveOnClick: true,
         checkedClass: 'checked',
+        activeClass: 'active',
         setOrder: true,
         transitionTime: 300,
         valueAttr: 'data-value',
@@ -70,10 +71,6 @@ $.fn.Selector = function(options) {
                     if (!settings.clickToOpen) {
                         e.preventDefault();
                     }
-                    selector.find('.active').each(function() {
-                        $(this).removeClass('active');
-                    });
-                    $(this).parent().addClass('active');
                 });
             }
 
@@ -104,9 +101,9 @@ $.fn.Selector = function(options) {
 
             // When leaving the Selector
             selector.mouseleave(function() {
-                setTimeout(function() {
-                    scrollToSelected(selector.find('li.' + settings.checkedClass));
-                }, 200);
+              setTimeout(function() {
+                scrollToSelected(selector.find('li.' + settings.activeClass));
+              }, 200);
             });
 
             // When scrolling into Selector
@@ -185,19 +182,24 @@ $.fn.Selector = function(options) {
             selector.find('li').each(function() {
                 if ($(this).position().top < selectorMidLine && ($(this).position().top + $(this).outerHeight()) > selectorMidLine && !$(this).hasClass('checked')) {
                     sIndex = $(this).index();
-                    selector.find('li').each(function() {
-                        $(this).removeClass('checked').attr('data-order', sIndex - $(this).index());
-                    });
-                    $(this).addClass('checked');
+
                     setChecked(selector, $(this));
                 }
             });
         };
 
         var setChecked = function setChecked(selector, el) {
+            selector.find('li').each(function() {
+                $(this).removeClass('checked').attr('data-order', sIndex - $(this).index());
+            });
+            el.addClass('checked');
             selector.attr('data-checked', el.attr(settings.valueAttr)).triggerAll('checkedChange selectorChange');
         };
         var setActive = function setActive(selector, el) {
+            selector.find('.active').each(function() {
+                $(this).removeClass('active');
+            });
+            el.addClass('active');
             selector.attr('data-active', el.attr(settings.valueAttr)).triggerAll('activeChange selectorChange');
         };
 
@@ -222,10 +224,13 @@ $.fn.Selector = function(options) {
         };
 
         var goto = function(callback) {
-            scrollToSelected($(settings.goto));
-            if (isFunction(callback)) {
-                callback();
-            }
+          setActive(selector,$(settings.goto));
+          setChecked(selector,$(settings.goto));
+
+          scrollToSelected($(settings.goto));
+          if (isFunction(callback)) {
+              callback();
+          }
         };
 
         if (settings.init) {
