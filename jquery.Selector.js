@@ -130,7 +130,9 @@ $.fn.Selector = function(options) {
         var initialize = function initialize() {
             if (!initialized) {
                 initSelector(selector);
-                scrollToSelected(selector.find('li.' + settings.activeClass));
+                if(settings.activeClass){
+                  scrollToSelected(selector.find('li.' + settings.activeClass));
+                }
                 if (settings.arrows) {
                     keepArrowsInPlace();
                 }
