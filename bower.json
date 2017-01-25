@@ -1,6 +1,11 @@
 {
   "name": "Selector",
   "version": "0.0.1",
+  "authors": [
+    "Sil van Diepen <sil@matise.nl>",
+    "Maurits Meester <maurits@matise.nl>"
+  ],
+  "description": "",
   "main": [
     "jquery.Selector.js"
   ],
@@ -26,5 +31,14 @@
   "dependencies": {
     "jquery": "~2.2.0",
     "keypress": "*"
-  }
+  },
+  "license": "MIT",
+  "homepage": "http://www.matise.nl",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
 }
