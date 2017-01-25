@@ -15,6 +15,11 @@ Install the script with bower or make your own files
 ```
 bower install selector --save
 ```
+### Npm
+
+```
+npm install jquery.selector --save
+```
 
 ### Embed
 

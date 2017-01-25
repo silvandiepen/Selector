@@ -1,0 +1,25 @@
+{
+  "name": "jquery.selector",
+  "version": "1.0.0",
+  "description": "Alternative scrolling selector ",
+  "main": "jquery.Selector.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/silvandiepen/Selector.git"
+  },
+  "keywords": [
+    "selector",
+    "jquery",
+    "select",
+    "scroll"
+  ],
+  "author": "Sil van Diepen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/silvandiepen/Selector/issues"
+  },
+  "homepage": "https://github.com/silvandiepen/Selector#readme"
+}
