@@ -47,9 +47,15 @@ $.fn.Selector = function(options) {
                 arrows = $('<div>').addClass('selector-arrows');
                 arrows.append($('<a>').addClass('selector-arrows-up').on('click', function() {
                     goToOption('up');
+                    setTimeout(function(){
+                      setActive(selector, selector.find('ul li.checked'));
+                    },300);
                 }));
                 arrows.append($('<a>').addClass('selector-arrows-down').on('click', function() {
                     goToOption('down');
+                    setTimeout(function(){
+                      setActive(selector, selector.find('ul li.checked'));
+                    },300);
                 }));
                 selector.prepend(arrows);
             }
